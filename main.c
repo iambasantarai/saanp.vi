@@ -2,8 +2,6 @@
 
 #include <SDL2/SDL.h>
 
-#define WINDOW_X 100
-#define WINDOW_Y 100
 #define WINDOW_WIDTH 640
 #define WINDOW_HEIGHT 480
 
@@ -15,8 +13,8 @@ int main()
     }
 
     SDL_Window *window = SDL_CreateWindow("Saanp",
-                                          WINDOW_X,
-                                          WINDOW_Y,
+                                          SDL_WINDOWPOS_CENTERED,
+                                          SDL_WINDOWPOS_CENTERED,
                                           WINDOW_WIDTH,
                                           WINDOW_HEIGHT,
                                           SDL_WINDOW_SHOWN
