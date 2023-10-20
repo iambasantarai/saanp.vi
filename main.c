@@ -5,8 +5,28 @@
 #define WINDOW_WIDTH 640
 #define WINDOW_HEIGHT 480
 
-int main()
-{
+#define ROWS 20
+#define COLS 20
+#define CELL_SIZE 20
+
+// render a grid
+void render_grid(SDL_Renderer * renderer, int x, int y) {
+    SDL_SetRenderDrawColor(renderer, 0xCC, 0xCC, 0xCC, 255);
+
+    SDL_Rect cell;
+    cell.w = CELL_SIZE;
+    cell.h = CELL_SIZE;
+
+    for (int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < COLS; j++) {
+            cell.x = x + (i * CELL_SIZE);
+            cell.y = y + (j * CELL_SIZE);
+            SDL_RenderDrawRect(renderer, &cell);
+        }
+    }
+}
+
+int main() {
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         fprintf(stderr, "Could not initialize sdl2: %s\n", SDL_GetError());
         return EXIT_FAILURE;
@@ -34,6 +54,9 @@ int main()
         return EXIT_FAILURE;
     }
 
+    int grid_x = (WINDOW_WIDTH - (COLS * CELL_SIZE)) / 2;
+    int grid_y = (WINDOW_HEIGHT - (ROWS * CELL_SIZE)) / 2;
+
     SDL_Event event;
     int quit = 0;
 
@@ -46,8 +69,13 @@ int main()
                 default: {}
             }
         }
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
+        // RENDER LOOP START
+
+        render_grid(renderer, grid_x, grid_y);
+
+        // RENDER LOOP END
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderPresent(renderer);
     }
 
