@@ -134,6 +134,22 @@ int main() {
                 case SDL_QUIT:
                     quit = 1;
                     break;
+                case SDL_KEYDOWN:
+                    switch (event.key.keysym.sym) {
+                        case SDLK_h:
+                            head->direction = LEFT;
+                            break;
+                        case SDLK_j:
+                            head->direction = DOWN;
+                            break;
+                        case SDLK_k:
+                            head->direction = UP;
+                            break;
+                        case SDLK_l:
+                            head->direction = RIGHT;
+                            break;
+
+                    }
                 default: {}
             }
         }
