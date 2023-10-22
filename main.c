@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <time.h>
 
 #include <SDL2/SDL.h>
 
@@ -19,8 +20,15 @@ typedef struct Saanp {
     struct Saanp *next;
 } Saanp;
 
+typedef struct {
+    int x;
+    int y;
+} Food;
+
 Saanp *head;
 Saanp *tail;
+
+Food food;
 
 // initialize saanp
 void init_saanp() {
@@ -74,6 +82,25 @@ void move_saanp() {
     }
 }
 
+// generate food
+void generate_food() {
+    food.x = (rand() % COLS);
+    food.y = (rand() % ROWS);
+}
+
+// render food
+void render_food(SDL_Renderer *renderer, int x, int y) {
+    SDL_SetRenderDrawColor(renderer, 0xFA, 0x4E, 0x58, 255);
+
+    SDL_Rect foodRect;
+    foodRect.w = CELL_SIZE;
+    foodRect.h = CELL_SIZE;
+    foodRect.x = x + food.x * CELL_SIZE;
+    foodRect.y = y + food.y * CELL_SIZE;
+
+    SDL_RenderFillRect(renderer, &foodRect);
+}
+
 // render a grid
 void render_grid(SDL_Renderer * renderer, int x, int y) {
     SDL_SetRenderDrawColor(renderer, 0xCC, 0xCC, 0xCC, 255);
@@ -92,8 +119,13 @@ void render_grid(SDL_Renderer * renderer, int x, int y) {
 }
 
 int main() {
+    srand(time(0));
+
     // initialize saanp
     init_saanp();
+
+    // generate food randomly
+    generate_food();
 
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         fprintf(stderr, "Could not initialize sdl2: %s\n", SDL_GetError());
@@ -159,6 +191,7 @@ int main() {
         move_saanp();
         render_grid(renderer, grid_x, grid_y);
         render_saanp(renderer, grid_x, grid_y);
+        render_food(renderer, grid_x, grid_y);
 
         // RENDER LOOP END
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
