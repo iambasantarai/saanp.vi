@@ -101,6 +101,13 @@ void render_food(SDL_Renderer *renderer, int x, int y) {
     SDL_RenderFillRect(renderer, &foodRect);
 }
 
+// eat food
+void eat_food() {
+    if(head->x == food.x * CELL_SIZE && head->y == food.y * CELL_SIZE) {
+        generate_food();
+    }
+}
+
 // render a grid
 void render_grid(SDL_Renderer * renderer, int x, int y) {
     SDL_SetRenderDrawColor(renderer, 0xCC, 0xCC, 0xCC, 255);
@@ -189,6 +196,8 @@ int main() {
         // RENDER LOOP START
 
         move_saanp();
+        eat_food();
+
         render_grid(renderer, grid_x, grid_y);
         render_saanp(renderer, grid_x, grid_y);
         render_food(renderer, grid_x, grid_y);
