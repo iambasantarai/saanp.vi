@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include <time.h>
 
 #include <SDL2/SDL.h>
@@ -112,8 +113,23 @@ void move_saanp() {
 
 // generate food
 void generate_food() {
-    food.x = (rand() % COLS);
-    food.y = (rand() % ROWS);
+    bool inside_saanp;
+
+    do {
+        inside_saanp = false;
+        food.x = (rand() % COLS);
+        food.y = (rand() % ROWS);
+
+        Saanp *current = head;
+
+        // make sure food doesn't overlap with the body
+        while (current != NULL) {
+            if (current->x == food.x * CELL_SIZE && current->y == food.y * CELL_SIZE) {
+                inside_saanp = true;
+            }
+            current = current->next;
+        }
+    } while (inside_saanp);
 }
 
 // render food
