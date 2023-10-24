@@ -44,6 +44,18 @@ void init_saanp() {
     tail = saanp;
 }
 
+// add segment
+void add_segment() {
+    Saanp *segment = malloc(sizeof(Saanp));
+    segment->x = tail->x;
+    segment->y = tail->y;
+    segment->direction = tail->direction;
+    segment->next = NULL;
+    
+    tail->next = segment;
+    tail = segment;
+}
+
 // render saanp
 void render_saanp(SDL_Renderer *renderer, int x, int y) {
     SDL_SetRenderDrawColor(renderer, 0x45, 0xFE, 0x02, 255);
@@ -66,19 +78,35 @@ void render_saanp(SDL_Renderer *renderer, int x, int y) {
 
 // move saanp
 void move_saanp() {
+    // Move the head
+    int prev_x = head->x;
+    int prev_y = head->y;
+
     switch (head->direction) {
         case UP:
-            head->y -= ROWS;
+            head->y -= CELL_SIZE;
             break;
         case DOWN:
-            head->y += ROWS;
+            head->y += CELL_SIZE;
             break;
         case LEFT:
-            head->x -= COLS;
+            head->x -= CELL_SIZE;
             break;
         case RIGHT:
-            head->x += COLS;
+            head->x += CELL_SIZE;
             break;
+    }
+
+    // Move the body segments
+    Saanp *current = head->next;
+    while (current != NULL) {
+        int temp_x = current->x;
+        int temp_y = current->y;
+        current->x = prev_x;
+        current->y = prev_y;
+        prev_x = temp_x;
+        prev_y = temp_y;
+        current = current->next;
     }
 }
 
@@ -105,6 +133,7 @@ void render_food(SDL_Renderer *renderer, int x, int y) {
 void eat_food() {
     if(head->x == food.x * CELL_SIZE && head->y == food.y * CELL_SIZE) {
         generate_food();
+        add_segment();
     }
 }
 
