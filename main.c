@@ -241,6 +241,9 @@ int main() {
                     break;
                 case SDL_KEYDOWN:
                     switch (event.key.keysym.sym) {
+                        case SDLK_ESCAPE:
+                            quit = 1;
+                            break;
                         case SDLK_h:
                             head->direction = LEFT;
                             break;
