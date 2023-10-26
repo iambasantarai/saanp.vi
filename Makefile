@@ -4,7 +4,7 @@ LIBS = -lSDL2
 INCLUDES = -I/usr/include/SDL2/
 SRCS = main.c
 OBJS = ${SRCS:.c=.o}
-MAIN = main.out
+MAIN = main.bin
 
 $(MAIN) : ${OBJS}
 	$(CC) $(CFLAGS) $(INCLUDES) -o $(MAIN) $(OBJS) $(LIBS)
