@@ -2,8 +2,9 @@
     <strong>saanp.vi</strong>
 </p>
 
-The name **`saanp.vi`** (with 'saanp' meaning 'snake') playfully describes the snake-like behavior of my friends, while 'vi' refers to the Vim keybindings used for controls.
+I developed this simple Snake Game using the SDL2 library in C.
 I was inspired by a video on the [CS50](https://www.youtube.com/@cs50) YouTube channel, which demonstrated [2D Games in C using SDL](https://www.youtube.com/watch?v=yFLa3ln16w0).
+The name **`saanp.vi`** (with 'saanp' meaning 'snake') playfully describes the snake-like behavior of my friends, while 'vi' refers to the Vim keybindings used for controls.
 
 ## Project setup
 
