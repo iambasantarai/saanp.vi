@@ -247,7 +247,7 @@ int main() {
         while (!game_started) {
             while (SDL_PollEvent(&event)) {
                 // click space to start the game
-                if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE) {
+                if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_i) {
                     game_started = 1;
                 }
             }
