@@ -52,7 +52,7 @@ void add_segment() {
     segment->y = tail->y;
     segment->direction = tail->direction;
     segment->next = NULL;
-    
+
     tail->next = segment;
     tail = segment;
 }
@@ -230,10 +230,28 @@ int main() {
     int grid_x = (WINDOW_WIDTH - (COLS * CELL_SIZE)) / 2;
     int grid_y = (WINDOW_HEIGHT - (ROWS * CELL_SIZE)) / 2;
 
+
+   // Render initial state
+    SDL_RenderClear(renderer);
+    render_grid(renderer, grid_x, grid_y);
+    render_saanp(renderer, grid_x, grid_y);
+    render_food(renderer, grid_x, grid_y);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_RenderPresent(renderer);
+
+
     SDL_Event event;
     int quit = 0;
-
+   int game_started = 0;
     while (!quit) {
+        while (!game_started) {
+            while (SDL_PollEvent(&event)) {
+                // click space to start the game
+                if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_i) {
+                    game_started = 1;
+                }
+            }
+        }
         while (SDL_PollEvent(&event)) {
             switch (event.type) {
                 case SDL_QUIT:
@@ -262,7 +280,6 @@ int main() {
             }
         }
         SDL_RenderClear(renderer);
-        move_saanp();
 
         if (check_collision()) {
             quit = 1;
@@ -274,6 +291,7 @@ int main() {
         render_saanp(renderer, grid_x, grid_y);
         render_food(renderer, grid_x, grid_y);
 
+        move_saanp();
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderPresent(renderer);
 
