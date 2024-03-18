@@ -9,27 +9,32 @@ The name **`saanp.vi`** (with 'saanp' meaning 'snake') playfully describes the s
 ## Project setup
 
 ### Prerequisites
+
 - [SDL2](https://www.libsdl.org/)
 - C Compiler (gcc, g++ etc.)
-  
+
 ### Getting Started
 
 Clone the repository
+
 ```bash
 git clone git@github.com:iamsampang/saanp.vi.git
 ```
 
 Navitage to the project directory
+
 ```bash
 cd saanp.vi
 ```
 
 Build the game using `make`
+
 ```bash
 make
 ```
 
 Run the game
+
 ```bash
 ./main.bin
 ```
@@ -37,7 +42,8 @@ Run the game
 ## Controls
 
 | KEY   | ACTION        |
-|-------| --------------|
+| ----- | ------------- |
+| `i`   | start game    |
 | `h`   | move left     |
 | `j`   | move down     |
 | `k`   | move up       |
