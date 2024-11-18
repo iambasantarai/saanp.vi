@@ -13,6 +13,12 @@ The name **`saanp.vi`** (with 'saanp' meaning 'snake') playfully describes the s
 - [SDL2](https://www.libsdl.org/)
 - C Compiler (gcc, g++ etc.)
 
+#### Void linux
+
+```bash
+sudo xbps-install gcc SDL2 SDL2-devel -y
+```
+
 ### Getting Started
 
 Clone the repository
