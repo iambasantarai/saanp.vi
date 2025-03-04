@@ -8,40 +8,40 @@
 
 typedef enum { UP, DOWN, LEFT, RIGHT } Direction;
 
-typedef struct Saanp {
+typedef struct Saap {
     int x;
     int y;
     Direction direction;
-    struct Saanp *next;
-} Saanp;
+    struct Saap *next;
+} Saap;
 
 typedef struct {
     int x;
     int y;
 } Food;
 
-Saanp *head;
-Saanp *tail;
+Saap *head;
+Saap *tail;
 
 Food food;
 
-// initialize saanp
-void init_saanp() {
-    Saanp *saanp = malloc(sizeof(Saanp));
+// initialize saap
+void init_saap() {
+    Saap *saap = malloc(sizeof(Saap));
 
-    saanp->x = (rand() % COLS) * CELL_SIZE;
-    saanp->y = (rand() % ROWS) * CELL_SIZE;
-    saanp->direction = RIGHT;
+    saap->x = (rand() % COLS) * CELL_SIZE;
+    saap->y = (rand() % ROWS) * CELL_SIZE;
+    saap->direction = RIGHT;
 
-    saanp->next = NULL;
+    saap->next = NULL;
 
-    head = saanp;
-    tail = saanp;
+    head = saap;
+    tail = saap;
 }
 
 // add segment
 void add_segment() {
-    Saanp *segment = malloc(sizeof(Saanp));
+    Saap *segment = malloc(sizeof(Saap));
     segment->x = tail->x;
     segment->y = tail->y;
     segment->direction = tail->direction;
@@ -51,15 +51,15 @@ void add_segment() {
     tail = segment;
 }
 
-// render saanp
-void render_saanp(SDL_Renderer *renderer, int x, int y) {
+// render saap
+void render_saap(SDL_Renderer *renderer, int x, int y) {
     SDL_SetRenderDrawColor(renderer, 0x45, 0xFE, 0x02, 255);
 
     SDL_Rect segment;
     segment.w = CELL_SIZE;
     segment.h = CELL_SIZE;
 
-    Saanp *current = head;
+    Saap *current = head;
 
     while (current != NULL) {
         segment.x = x + current->x;
@@ -71,8 +71,8 @@ void render_saanp(SDL_Renderer *renderer, int x, int y) {
     }
 }
 
-// move saanp
-void move_saanp() {
+// move saap
+void move_saap() {
     // Move the head
     int prev_x = head->x;
     int prev_y = head->y;
@@ -93,7 +93,7 @@ void move_saanp() {
     }
 
     // Move the body segments
-    Saanp *current = head->next;
+    Saap *current = head->next;
     while (current != NULL) {
         int temp_x = current->x;
         int temp_y = current->y;
@@ -107,23 +107,23 @@ void move_saanp() {
 
 // generate food
 void generate_food() {
-    bool inside_saanp;
+    bool inside_saap;
 
     do {
-        inside_saanp = false;
+        inside_saap = false;
         food.x = (rand() % COLS);
         food.y = (rand() % ROWS);
 
-        Saanp *current = head;
+        Saap *current = head;
 
         // make sure food doesn't overlap with the body
         while (current != NULL) {
             if (current->x == food.x * CELL_SIZE && current->y == food.y * CELL_SIZE) {
-                inside_saanp = true;
+                inside_saap = true;
             }
             current = current->next;
         }
-    } while (inside_saanp);
+    } while (inside_saap);
 }
 
 // render food
@@ -167,13 +167,13 @@ void render_grid(SDL_Renderer * renderer, int x, int y) {
 // detect collision
 bool check_collision() {
     // check if the head hits the walls
-    if (head->x < 0 || head->x >= COLS * CELL_SIZE ||
-        head->y < 0 || head->y >= ROWS * CELL_SIZE) {
+    if (head->x < 0 || head->x > COLS * CELL_SIZE ||
+        head->y < 0 || head->y > ROWS * CELL_SIZE) {
         return true;
     }
 
     // check if the head collides with its own body
-    Saanp *current = head->next;
+    Saap *current = head->next;
     while (current != NULL) {
         if (head->x == current->x && head->y == current->y) {
             return true;
@@ -188,8 +188,8 @@ bool check_collision() {
 int main() {
     srand(time(0));
 
-    // initialize saanp
-    init_saanp();
+    // initialize saap
+    init_saap();
 
     // generate food randomly
     generate_food();
@@ -199,7 +199,7 @@ int main() {
         return EXIT_FAILURE;
     }
 
-    SDL_Window *window = SDL_CreateWindow("Saanp",
+    SDL_Window *window = SDL_CreateWindow("Saap",
                                           SDL_WINDOWPOS_CENTERED,
                                           SDL_WINDOWPOS_CENTERED,
                                           WINDOW_WIDTH,
@@ -228,14 +228,14 @@ int main() {
    // Render initial state
     SDL_RenderClear(renderer);
     render_grid(renderer, grid_x, grid_y);
-    render_saanp(renderer, grid_x, grid_y);
+    render_saap(renderer, grid_x, grid_y);
     render_food(renderer, grid_x, grid_y);
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderPresent(renderer);
 
 
-    SDL_Event event;
-    int quit = 0;
+   SDL_Event event;
+   int quit = 0;
    int game_started = 0;
     while (!quit) {
         while (!game_started) {
@@ -279,7 +279,7 @@ int main() {
         }
         SDL_RenderClear(renderer);
 
-        move_saanp();
+        move_saap();
 
         if (check_collision()) {
             quit = 1;
@@ -288,7 +288,7 @@ int main() {
         }
 
         render_grid(renderer, grid_x, grid_y);
-        render_saanp(renderer, grid_x, grid_y);
+        render_saap(renderer, grid_x, grid_y);
         render_food(renderer, grid_x, grid_y);
 
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
