@@ -167,8 +167,8 @@ void render_grid(SDL_Renderer * renderer, int x, int y) {
 // detect collision
 bool check_collision() {
     // check if the head hits the walls
-    if (head->x < 0 || head->x > COLS * CELL_SIZE ||
-        head->y < 0 || head->y > ROWS * CELL_SIZE) {
+    if (head->x < 0 || head->x >= COLS * CELL_SIZE ||
+        head->y < 0 || head->y >= ROWS * CELL_SIZE) {
         return true;
     }
 
@@ -257,16 +257,20 @@ int main() {
                             quit = 1;
                             break;
                         case SDLK_h:
-                            head->direction = LEFT;
+                            if(head->direction != RIGHT)
+                                head->direction = LEFT;
                             break;
                         case SDLK_j:
-                            head->direction = DOWN;
+                            if(head->direction != UP)
+                                head->direction = DOWN;
                             break;
                         case SDLK_k:
-                            head->direction = UP;
+                            if(head->direction != DOWN)
+                                head->direction = UP;
                             break;
                         case SDLK_l:
-                            head->direction = RIGHT;
+                            if(head->direction != LEFT)
+                                head->direction = RIGHT;
                             break;
 
                     }
@@ -274,6 +278,8 @@ int main() {
             }
         }
         SDL_RenderClear(renderer);
+
+        move_saanp();
 
         if (check_collision()) {
             quit = 1;
@@ -285,7 +291,6 @@ int main() {
         render_saanp(renderer, grid_x, grid_y);
         render_food(renderer, grid_x, grid_y);
 
-        move_saanp();
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderPresent(renderer);
 
